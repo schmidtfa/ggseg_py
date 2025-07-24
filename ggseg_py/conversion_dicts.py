@@ -1,4 +1,4 @@
-aseg_dict = {
+aseg_dict: dict = {
     '3rd-Ventricle': 'midline_3rd ventricle',
     '4th-Ventricle': 'midline_4th ventricle',
     'Brain-Stem': 'midline_brain stem',
@@ -28,7 +28,7 @@ aseg_dict = {
 }
 
 
-glasser_dict = {}
+glasser_dict: dict = {}
 
 
-dk_dict = {}
+dk_dict: dict = {}

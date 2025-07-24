@@ -1,3 +1,5 @@
+import geopandas as gpd
+import matplotlib
 import matplotlib.colors as mcolors
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -6,7 +8,9 @@ from matplotlib.colors import TwoSlopeNorm
 from matplotlib.patches import Patch
 
 
-def _add_colorbar(fig, axes, data, cmap, label):
+def _add_colorbar(
+    fig: matplotlib.figure.Figure, axes: plt.Axes, data: gpd.GeoDataFrame, cmap: matplotlib.colors.Colormap, label: str
+) -> None:
     """
     Add a shared vertical colorbar to the figure for the given data and colormap.
     If `data` is non-numeric (e.g., strings or categorical), create a legend instead.
@@ -31,15 +35,21 @@ def _add_colorbar(fig, axes, data, cmap, label):
     # Diverging norm if data spans zero
     if vmin < 0 < vmax:
         lim = max(abs(vmin), abs(vmax))
-        norm = TwoSlopeNorm(vmin=-lim, vcenter=0, vmax=lim)
+        norm: mcolors.Normalize = TwoSlopeNorm(vmin=-lim, vcenter=0, vmax=lim)
     else:
-        norm = mcolors.Normalize(vmin=vmin, vmax=vmax)
+        norm = mcolors.Normalize(vmin=vmin, vmax=vmax)  # noqa
     mappable = cm.ScalarMappable(norm=norm, cmap=cmap)
     cbar = fig.colorbar(mappable, ax=axes, orientation='vertical', fraction=0.05, pad=0.02)
     cbar.set_label(label)
 
 
-def plot_aseg(aseg_data, value: str = 'label', cmap='tab20', mask_region: str = '???', show_cbar: bool = True):
+def plot_aseg(
+    aseg_data: gpd.GeoDataFrame,
+    value: str = 'label',
+    cmap: str | matplotlib.colors.Colormap = 'tab20',
+    mask_region: str = '???',
+    show_cbar: bool = True,
+) -> tuple[matplotlib.figure.Figure, plt.Axes]:
     """
     Plot ASEG data in ggseg-style coronal and sagittal views.
 
@@ -60,7 +70,7 @@ def plot_aseg(aseg_data, value: str = 'label', cmap='tab20', mask_region: str = 
         cmap = plt.get_cmap(cmap)
 
     fig, axes = plt.subplots(1, 2, figsize=(10, 5))
-    views = [{'side': 'coronal', 'hemi': ['left', 'right']}, {'side': 'sagittal', 'hemi': 'midline'}]
+    views: list[dict] = [{'side': 'coronal', 'hemi': ['left', 'right']}, {'side': 'sagittal', 'hemi': 'midline'}]
     for ax, view in zip(axes, views):
         sel = aseg_data[aseg_data['side'] == view['side']]
         if isinstance(view['hemi'], list | tuple):
@@ -77,15 +87,15 @@ def plot_aseg(aseg_data, value: str = 'label', cmap='tab20', mask_region: str = 
 
 
 def plot_surface(
-    gdf,
+    gdf: gpd.GeoDataFrame,
     column: str = 'label',
-    cmap='tab20',
+    cmap: str | matplotlib.colors.Colormap = 'tab20',
     edgecolor: str = 'black',
     linewidth: float = 1.5,
     figsize: tuple = (7, 5),
     aspect: float = 1,
     show_cbar: bool = True,
-):
+) -> tuple[matplotlib.figure.Figure, plt.Axes]:
     """
     Plot a surface-based model in lateral and medial views for both hemispheres.
 
@@ -129,17 +139,17 @@ def plot_surface(
 
 
 def plot_view(
-    gdf,
+    gdf: gpd.GeoDataFrame,
     side: str,
     hemi: str,
     column: str = 'label',
-    cmap='tab20',
+    cmap: str | matplotlib.colors.Colormap = 'tab20',
     edgecolor: str = 'black',
     linewidth: float = 1.5,
     figsize: tuple = (5, 5),
     aspect: float = 1,
     show_cbar: bool = True,
-):
+) -> tuple[matplotlib.figure.Figure, plt.Axes]:
     """
     Plot a single hemisphere/side view on its own axis.
 

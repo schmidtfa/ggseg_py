@@ -7,7 +7,7 @@ from rdata import read_rda
 from shapely.geometry import MultiPolygon, Polygon
 
 
-def _list_to_multipolygon(coords: Sequence[Sequence[Sequence[Sequence[float]]]]) -> MultiPolygon:
+def _list_to_multipolygon(coords: list[Sequence[Sequence[float]]]) -> MultiPolygon:
     """
     Convert a nested list of rings into a MultiPolygon.
 
@@ -25,8 +25,8 @@ def _list_to_multipolygon(coords: Sequence[Sequence[Sequence[Sequence[float]]]])
     for polygon in coords:
         if not polygon:
             continue
-        exterior: Sequence[Sequence[float]] = polygon[0]
-        interiors: list[Sequence[Sequence[float]]] = polygon[1:] if len(polygon) > 1 else []
+        exterior = polygon[0]
+        interiors = polygon[1:] if len(polygon) > 1 else []
         polys.append(Polygon(shell=exterior, holes=interiors))
     return MultiPolygon(polys)
 
@@ -91,11 +91,11 @@ def merge_data(data: pd.DataFrame, geo_df: gpd.GeoDataFrame, atlas_name: str) ->
     """
     # Dynamically import the correct conversion dictionary
     if atlas_name == 'aseg':
-        from conversion_dicts import aseg_dict as mapping
+        from ggseg_py.conversion_dicts import aseg_dict as mapping
     elif atlas_name == 'glasser':
-        from conversion_dicts import glasser_dict as mapping
+        from ggseg_py.conversion_dicts import glasser_dict as mapping
     elif atlas_name == 'dk':
-        from conversion_dicts import dk_dict as mapping
+        from ggseg_py.conversion_dicts import dk_dict as mapping
     else:
         raise ValueError(f'Unsupported atlas_name: {atlas_name}')
 
