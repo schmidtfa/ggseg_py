@@ -7,9 +7,10 @@
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 
 
-ggseg_py is a python adaptation of the famous [ggseg](https://github.com/ggseg) R package. ggseg_py facilitates 2D brain plots by making heavy use of geopandas and matplotlib. In a nutshell: ggseg based .rda files containing MULTIPOLYGONS for different brain regions are used to create geopandas dataframes. These dataframes can be easily merged with normal pandas dataframes containing your data for a given ROI.
-The package also contains some convenience functions to plot these dataframes using matplotlib.
+ggseg_py is a python adaptation of the famous [ggseg](https://github.com/ggseg) R package. ggseg_py facilitates 2D brain plots by making heavy use of geopandas and matplotlib. 
 
+In a nutshell: ggseg based .rda files containing multipolygons for different brain regions are used to create geopandas dataframes. These dataframes can be easily merged with normal pandas dataframes containing the data you want to plot for a given ROI.
+The package also contains some convenience functions to plot these dataframes using matplotlib.
 
 ```
 [pypi-dependencies]
