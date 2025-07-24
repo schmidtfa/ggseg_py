@@ -20,6 +20,8 @@ If you like ggseg_py please drop a star to support me :)
 
 Also if you are using the atlasses herein in some form of a publication make sure to appropriately cite those.
 
+Currently you can install the ggseg_py package only directly from github. You just need to add the following to your pixi.toml.
+
 ```
 [pypi-dependencies]
 ggseg_py = { git = "https://github.com/schmidtfa/ggseg_py.git"}
