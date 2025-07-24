@@ -18,6 +18,8 @@ Mowinckel, A. M., & Vidal-Piñeiro, D. (2020). Visualization of brain statistics
 
 If you like ggseg_py please drop a star to support me :)
 
+Also if you are using the atlasses herein in some form of a publication make sure to appropriately cite those.
+
 ```
 [pypi-dependencies]
 ggseg_py = { git = "https://github.com/schmidtfa/ggseg_py.git"}
