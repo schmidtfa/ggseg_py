@@ -18,7 +18,7 @@ classifiers = [
 
 keywords = ['ggseg', 'M/EEG', 'MRI', 'parcellation']
 requires-python = ">=3.11"
-dependencies = ['pandas', 'geopandas', 'rdata']
+dependencies = ['pandas', 'geopandas', 'rdata', 'matplotlib']
 
 [tool.pixi.system-requirements]
 linux = "4.18"

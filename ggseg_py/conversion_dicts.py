@@ -1,0 +1,34 @@
+aseg_dict = {
+    '3rd-Ventricle': 'midline_3rd ventricle',
+    '4th-Ventricle': 'midline_4th ventricle',
+    'Brain-Stem': 'midline_brain stem',
+    'CC_Anterior': 'midline_CC anterior',
+    'CC_Central': 'midline_CC central',
+    'CC_Mid_Anterior': 'midline_CC mid anterior',
+    'CC_Mid_Posterior': 'midline_CC mid posterior',
+    'CC_Posterior': 'midline_CC posterior',
+    'Right-Caudate': 'right_caudate',
+    'Left-Caudate': 'left_caudate',
+    'Left-Pallidum': 'left_pallidum',
+    'Right-Pallidum': 'right_pallidum',
+    'Left-Hippocampus': 'left_hippocampus',
+    'Right-Hippocampus': 'right_hippocampus',
+    'Left-Thalamus': 'left_thalamus proper',
+    'Right-Thalamus': 'right_thalamus proper',
+    'Left-Amygdala': 'left_amygdala',
+    'Right-Amygdala': 'right_amygdala',
+    'Left-Lateral-Ventricle': 'left_lateral ventricle',
+    'Right-Lateral-Ventricle': 'right_lateral ventricle',
+    'Left-Putamen': 'left_putamen',
+    'Right-Putamen': 'right_putamen',
+    'Left-VentralDC': 'left_ventral DC',
+    'Right-VentralDC': 'right_ventral DC',
+    'Cerebellum-Cortex': 'midline_cerebellum cortex',
+    'Cerebellum-White-Matter': 'midline_cerebellum white matter',
+}
+
+
+glasser_dict = {}
+
+
+dk_dict = {}
