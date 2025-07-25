@@ -26,9 +26,3 @@ aseg_dict: dict = {
     'Cerebellum-Cortex': 'midline_cerebellum cortex',
     'Cerebellum-White-Matter': 'midline_cerebellum white matter',
 }
-
-
-glasser_dict: dict = {}
-
-
-dk_dict: dict = {}

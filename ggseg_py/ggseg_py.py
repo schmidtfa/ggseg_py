@@ -67,6 +67,8 @@ def rda2gpd(path2atlas: str, atlas_name: str) -> gpd.GeoDataFrame:
     # Add 'roi' column for aseg atlas
     if atlas_name == 'aseg':
         df['roi'] = df['hemi'] + '_' + df['label']  # type: ignore
+    elif atlas_name == 'glasser':
+        df['roi'] = [label.split('_')[1] + '_' + label.split('_')[-1] + '_ROI' for label in df['label']]
 
     return gpd.GeoDataFrame(df, geometry='geometry')
 
@@ -92,16 +94,12 @@ def merge_data(data: pd.DataFrame, geo_df: gpd.GeoDataFrame, atlas_name: str) ->
     # Dynamically import the correct conversion dictionary
     if atlas_name == 'aseg':
         from ggseg_py.conversion_dicts import aseg_dict as mapping
-    elif atlas_name == 'glasser':
-        from ggseg_py.conversion_dicts import glasser_dict as mapping
-    elif atlas_name == 'dk':
-        from ggseg_py.conversion_dicts import dk_dict as mapping
+
+        # Create ROI column in data
+        data = data.copy()
+        data['roi'] = data['StructName'].replace(mapping)  # type: ignore
     else:
         raise ValueError(f'Unsupported atlas_name: {atlas_name}')
-
-    # Create ROI column in data
-    data = data.copy()
-    data['roi'] = data['StructName'].replace(mapping)  # type: ignore
 
     # Merge and return
     return geo_df.merge(data, on='roi', how='outer')
