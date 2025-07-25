@@ -5848,7 +5848,19 @@ packages:
   name: ggseg-py
   version: 1.0.0.dev0
   path: .
-  sha256: 0694066d846f5fa094f14475f7fa2d5efad27029105bf1e59f2089accc69d08e
+  sha256: c16ec8355bd74dbdab885da766f07846bd32d15f4fa9fde9d57a92c2d4d2e489
+  requires_dist:
+  - geopandas
+  - matplotlib
+  - pandas
+  - rdata
+  requires_python: '>=3.11'
+  editable: true
+- kind: pypi
+  name: ggseg-py
+  version: 1.0.0.dev0
+  path: .
+  sha256: c16ec8355bd74dbdab885da766f07846bd32d15f4fa9fde9d57a92c2d4d2e489
   requires_dist:
   - geopandas
   - matplotlib

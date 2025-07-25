@@ -82,7 +82,7 @@ tag_sign = false
 
 [tool.ruff]
 line-length = 120
-exclude = ['old', 'paper', 'tests']
+exclude = ['examples', 'tests']
 
 [tool.ruff.lint]
 extend-select = [
