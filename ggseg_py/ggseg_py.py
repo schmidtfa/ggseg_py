@@ -53,12 +53,14 @@ def rda2gpd(atlas: str | os.PathLike) -> gpd.GeoDataFrame:
 
     if len(atlas_split) == 1: 
         atlas_name = atlas_split[0]
+        from pathlib import Path
+        HERE = Path(__file__).parent.parent  
         if atlas_name == 'aseg':
-            path2atlas = 'ggseg_py/atlases/aseg.rda'
+            path2atlas = HERE / 'ggseg_py'/ 'atlases' / 'aseg.rda'
         elif atlas_name == 'glasser':
-            path2atlas = 'ggseg_py/atlases/glasser.rda'
+            path2atlas = HERE / 'ggseg_py' / 'atlases' / 'glasser.rda'
         elif atlas_name == 'dk':
-            path2atlas = 'ggseg_py/atlases/dk.rda'
+            path2atlas = HERE / 'ggseg_py'/ 'atlases'/ 'dk.rda'
         else:
             raise ValueError('Currently only aseg, glasser and dk atlasses are supported directly. ' \
             'If you want to use a different ggseg compatible atlas taken from an rda file you need' \
