@@ -1,11 +1,11 @@
 import warnings
 from collections.abc import Sequence
+from pathlib import Path
 
 import geopandas as gpd
 import pandas as pd
 from rdata import read_rda
 from shapely.geometry import MultiPolygon, Polygon
-import os
 
 
 def _list_to_multipolygon(coords: list[Sequence[Sequence[float]]]) -> MultiPolygon:
@@ -32,14 +32,14 @@ def _list_to_multipolygon(coords: list[Sequence[Sequence[float]]]) -> MultiPolyg
     return MultiPolygon(polys)
 
 
-def rda2gpd(atlas: str | os.PathLike) -> gpd.GeoDataFrame:
+def rda2gpd(atlas: Path) -> gpd.GeoDataFrame:
     """
     Load atlas data from an R .rda file and convert to GeoDataFrame.
 
     Parameters
     ----------
     atlas : str
-        Name of an atlas or filepath to an .rda atlas file. 
+        Name of an atlas or filepath to an .rda atlas file.
         When using a "custom" rda file be aware that the object inside the .rda to extract data (e.g., 'aseg').
         should be labeled according to the atlas itself.
 
@@ -51,24 +51,25 @@ def rda2gpd(atlas: str | os.PathLike) -> gpd.GeoDataFrame:
 
     atlas_split = str(atlas).split('/')
 
-    if len(atlas_split) == 1: 
+    if len(atlas_split) == 1:
         atlas_name = atlas_split[0]
-        from pathlib import Path
-        HERE = Path(__file__).parent.parent  
+
+        atlas_loc = Path(__file__).parent.parent
         if atlas_name == 'aseg':
-            path2atlas = HERE / 'ggseg_py'/ 'atlases' / 'aseg.rda'
+            path2atlas = atlas_loc / 'ggseg_py' / 'atlases' / 'aseg.rda'
         elif atlas_name == 'glasser':
-            path2atlas = HERE / 'ggseg_py' / 'atlases' / 'glasser.rda'
+            path2atlas = atlas_loc / 'ggseg_py' / 'atlases' / 'glasser.rda'
         elif atlas_name == 'dk':
-            path2atlas = HERE / 'ggseg_py'/ 'atlases'/ 'dk.rda'
+            path2atlas = atlas_loc / 'ggseg_py' / 'atlases' / 'dk.rda'
         else:
-            raise ValueError('Currently only aseg, glasser and dk atlasses are supported directly. ' \
-            'If you want to use a different ggseg compatible atlas taken from an rda file you need' \
-            'to directly supply the path to said file.')
+            raise ValueError(
+                'Currently only aseg, glasser and dk atlasses are supported directly. '
+                'If you want to use a different ggseg compatible atlas taken from an rda file you need'
+                'to directly supply the path to said file.'
+            )
     else:
         path2atlas = atlas
         atlas_name = atlas_split[-1].split('.')[0]
-
 
     with warnings.catch_warnings():
         warnings.simplefilter('ignore')  # ignoring because fixing issues below
