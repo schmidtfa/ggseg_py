@@ -5,6 +5,7 @@ import geopandas as gpd
 import pandas as pd
 from rdata import read_rda
 from shapely.geometry import MultiPolygon, Polygon
+import os
 
 
 def _list_to_multipolygon(coords: list[Sequence[Sequence[float]]]) -> MultiPolygon:
@@ -31,22 +32,42 @@ def _list_to_multipolygon(coords: list[Sequence[Sequence[float]]]) -> MultiPolyg
     return MultiPolygon(polys)
 
 
-def rda2gpd(path2atlas: str, atlas_name: str) -> gpd.GeoDataFrame:
+def rda2gpd(atlas: str | os.PathLike) -> gpd.GeoDataFrame:
     """
     Load atlas data from an R .rda file and convert to GeoDataFrame.
 
     Parameters
     ----------
-    path2atlas : str
-        Filepath to the .rda atlas file.
-    atlas_name : str
-        Name of the object inside the .rda to extract (e.g., 'aseg').
+    atlas : str
+        Name of an atlas or filepath to an .rda atlas file. 
+        When using a "custom" rda file be aware that the object inside the .rda to extract data (e.g., 'aseg').
+        should be labeled according to the atlas itself.
 
     Returns
     -------
     GeoDataFrame
         A GeoDataFrame with 'geometry', 'region', 'label', and optional 'roi' columns.
     """
+
+    atlas_split = str(atlas).split('/')
+
+    if len(atlas_split) == 1: 
+        atlas_name = atlas_split[0]
+        if atlas_name == 'aseg':
+            path2atlas = 'ggseg_py/atlases/aseg.rda'
+        elif atlas_name == 'glasser':
+            path2atlas = 'ggseg_py/atlases/glasser.rda'
+        elif atlas_name == 'dk':
+            path2atlas = 'ggseg_py/atlases/dk.rda'
+        else:
+            raise ValueError('Currently only aseg, glasser and dk atlasses are supported directly. ' \
+            'If you want to use a different ggseg compatible atlas taken from an rda file you need' \
+            'to directly supply the path to said file.')
+    else:
+        path2atlas = atlas
+        atlas_name = atlas_split[-1].split('.')[0]
+
+
     with warnings.catch_warnings():
         warnings.simplefilter('ignore')  # ignoring because fixing issues below
         atlas_r: dict = read_rda(path2atlas)
