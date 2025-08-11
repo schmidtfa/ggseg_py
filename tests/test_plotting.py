@@ -13,14 +13,12 @@ def test_glasser():
     plot_surface(gdf)
 
 def test_aseg():
-    HERE = Path(__file__).parent.parent  
-    #atlas_path = HERE / "ggseg_py" / "atlases" / "aseg.rda"
+
     gdf = rda2gpd('aseg')
     plot_aseg(gdf)
 
 def test_data_merge():
-    HERE = Path(__file__).parent.parent  
-    #atlas_path = HERE / "ggseg_py" / "atlases" / "aseg.rda"
+
     test_df = (pd.DataFrame(dict(zip(aseg_dict.values(), 
                                      np.arange(len(aseg_dict.values())))), index=[0])
                  .melt(var_name='StructName', value_name='value'))
@@ -30,8 +28,7 @@ def test_data_merge():
     plot_aseg(gdf, 'value')
 
 def test_dk():
-    HERE = Path(__file__).parent.parent  
-    #atlas_path = HERE / "ggseg_py" / "atlases" / "dk.rda"
+
     gdf = rda2gpd('dk')
     plot_surface(gdf)
 
@@ -43,8 +40,7 @@ def test_val_plotting():
     plot_surface(gdf, column='data2plot', cmap='Reds', show_cbar=True)
 
 def test_view_dk():
-    HERE = Path(__file__).parent.parent  
-    #atlas_path = HERE / "ggseg_py" / "atlases" / "dk.rda"
+
     gdf = rda2gpd('dk')
     plot_view(gdf, side='medial', hemi='right')
 
