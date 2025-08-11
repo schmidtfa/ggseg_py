@@ -101,7 +101,7 @@ def _add_colorbar(
 def _plot_views(
     gdf: gpd.GeoDataFrame,
     views: list[dict],
-    column: str,
+    value: str,
     cmap: mcolors.Colormap,
     mask_region: str | None,
     edgecolor: str,
@@ -120,8 +120,8 @@ def _plot_views(
         Input geospatial data with 'side', 'hemi', and specified column.
     views : list of dict
         Each dict must have 'side' and 'hemi' keys for filtering.
-    column : str
-        Column name to color by.
+    value : str
+        Column name containing the data to visualize.
     cmap : Colormap
         Colormap for numeric plots or used to generate category colors.
     mask_region : str or None
@@ -145,7 +145,7 @@ def _plot_views(
         sel = sel[sel['hemi'].isin(hemi)] if isinstance(hemi, list | tuple) else sel[sel['hemi'] == hemi]
         if norm is not None:
             sel.plot(
-                column=column,
+                column=value,
                 cmap=cmap,
                 norm=norm,
                 edgecolor=edgecolor,
@@ -155,7 +155,7 @@ def _plot_views(
                 ax=ax,
             )
         elif color_map is not None:
-            sel_colors = sel[column].map(color_map)
+            sel_colors = sel[value].map(color_map)
             sel.plot(color=sel_colors, edgecolor=edgecolor, linewidth=linewidth, aspect=aspect, ax=ax)
         if mask_region:
             mask = gdf[(gdf['side'] == view['side']) & (gdf.get('region') == mask_region)]
@@ -167,7 +167,7 @@ def _plot_multi(
     gdf: gpd.GeoDataFrame,
     views: list,
     layout: tuple[int, int],
-    column: str,
+    value: str,
     cmap: str | mcolors.Colormap,
     mask_region: str | None,
     edgecolor: str,
@@ -189,8 +189,8 @@ def _plot_multi(
         View definitions with 'side' and 'hemi'.
     layout : tuple of ints
         (n_rows, n_cols) specifying subplot grid.
-    column : str
-        Column name to color by.
+    value : str
+        Column name containing the data to visualize.
     cmap : str or Colormap
         Colormap for mapping data values.
     mask_region : str or None
@@ -217,12 +217,12 @@ def _plot_multi(
     axes : array-like
         Array of Axes objects corresponding to each view.
     """
-    is_num, norm, color_map, cmap = _prepare_coloring(gdf[column], cmap, vmin, vmax)
+    is_num, norm, color_map, cmap = _prepare_coloring(gdf[value], cmap, vmin, vmax)
     fig, axes = plt.subplots(layout[0], layout[1], figsize=figsize, squeeze=False)
-    _plot_views(gdf, views, column, cmap, mask_region, edgecolor, linewidth, aspect, axes, norm, color_map)
+    _plot_views(gdf, views, value, cmap, mask_region, edgecolor, linewidth, aspect, axes, norm, color_map)
     if show_cbar:
-        gdf[column]
-        _add_colorbar(fig, axes, column, cmap, norm=norm, color_map=color_map)
+        gdf[value]
+        _add_colorbar(fig, axes, value, cmap, norm=norm, color_map=color_map)
     return fig, axes
 
 
@@ -268,7 +268,7 @@ def plot_aseg(
 
 def plot_surface(
     gdf: gpd.GeoDataFrame,
-    column: str = 'label',
+    value: str = 'label',
     cmap: str | mcolors.Colormap = 'tab20',
     edgecolor: str = 'black',
     linewidth: float = 1.5,
@@ -285,8 +285,8 @@ def plot_surface(
     ----------
     gdf : GeoDataFrame
         Surface atlas geodata with 'side', 'hemi', and data column.
-    column : str
-        Column name containing labels or measurements.
+    value : str
+        Column name containing the data to visualize.
     cmap : str or Colormap
         Colormap for mapping values or categories.
     edgecolor : str
@@ -318,7 +318,7 @@ def plot_surface(
         {'side': 'medial', 'hemi': 'right'},
     ]
     return _plot_multi(
-        gdf, views, (2, 2), column, cmap, None, edgecolor, linewidth, aspect, figsize, vmin, vmax, show_cbar
+        gdf, views, (2, 2), value, cmap, None, edgecolor, linewidth, aspect, figsize, vmin, vmax, show_cbar
     )
 
 
@@ -326,7 +326,7 @@ def plot_view(
     gdf: gpd.GeoDataFrame,
     side: str,
     hemi: str,
-    column: str = 'label',
+    value: str = 'label',
     cmap: str | mcolors.Colormap = 'viridis',
     edgecolor: str = 'black',
     linewidth: float = 1.5,
@@ -347,8 +347,8 @@ def plot_view(
         View orientation (e.g., 'lateral', 'medial', 'coronal', 'sagittal').
     hemi : str
         Hemisphere identifier ('left', 'right', or 'midline').
-    column : str
-        Column name for values or labels to plot.
+    value : str
+        Column name containing the data to visualize.
     cmap : str or Colormap
         Colormap for numeric or categorical data.
     edgecolor : str
@@ -375,6 +375,6 @@ def plot_view(
     """
     views = [{'side': side, 'hemi': hemi}]
     fig, axes = _plot_multi(
-        gdf, views, (1, 1), column, cmap, None, edgecolor, linewidth, aspect, figsize, vmin, vmax, show_cbar
+        gdf, views, (1, 1), value, cmap, None, edgecolor, linewidth, aspect, figsize, vmin, vmax, show_cbar
     )
     return fig, axes[0, 0]
