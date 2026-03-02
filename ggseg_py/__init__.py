@@ -1,9 +1,9 @@
 """ggseg_py core functions."""
 
-from ggseg_py.ggseg_py import merge_data, rda2gpd
+from ggseg_py.ggseg_py import atlas2df, rda2gpd
 
 __all__ = [
-    'merge_data',
+    'atlas2df',
     'rda2gpd',
     '__version__',
 ]
